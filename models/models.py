@@ -7,7 +7,7 @@ class res_partner(models.Model):
 	_inherit = 'res.partner'
 	#is_school = fields.Boolean('Escuela')
 	company_type = fields.Selection(selection_add=[('is_school', 'Escuela'),
-                                                    ('student','Estudiante')])
+                                                   ('student','Estudiante')])
     student_id = fields.Many2one('academy.student', 'Estudiante')
 
 
@@ -59,6 +59,7 @@ class academy_student(models.Model):
         result = super(academy_student, self).write(values)
         return result
 
+
     @api.model
     def create(self, values):
         res = super(academy_student, self).create(values)
@@ -70,14 +71,3 @@ class academy_student(models.Model):
                 }
         partner_obj.create(vals_to_partner)
         return res
-# class odoo_curso/odoo_academy(models.Model):
-#     _name = 'odoo_curso/odoo_academy.odoo_curso/odoo_academy'
-
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100

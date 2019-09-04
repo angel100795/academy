@@ -46,7 +46,7 @@
                                  <field name="name" ></field>
                                  <field name="last_name" ></field>
                                  <field name="curp" placeholder="AACA950710HVZLSN04"></field>
-                                 <field name="age"></field>
+                                 
                                  <field name="create_date" ></field>
 
                                  <field name="partner_id" domain="[('company_type','=','is_school')]"/>
