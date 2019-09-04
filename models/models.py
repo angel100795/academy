@@ -6,7 +6,10 @@ class res_partner(models.Model):
 	_name ='res.partner'
 	_inherit = 'res.partner'
 	#is_school = fields.Boolean('Escuela')
-	company_type = fields.Selection(selection_add=[('is_school', 'Escuela')])
+	company_type = fields.Selection(selection_add=[('is_school', 'Escuela'),
+                                                    ('student','Estudiante')])
+    student_id = fields.Many2one('academy.student', 'Estudiante')
+
 
 class academy_student(models.Model):
     _name = 'academy.student'
@@ -39,8 +42,6 @@ class academy_student(models.Model):
         if len(self.curp) < 18:
             raise exceptions.ValidationError("Curp debe ser de 18 caracteres")
 
-
-
     _order ='name'
 
     _defaults = {
@@ -48,6 +49,27 @@ class academy_student(models.Model):
     	'state' : 'draf',
     	}
 
+    ###Metodo de escritura
+    @api.multi
+    def write(self, values):
+        if 'curp' in values:
+            values.update({
+                'curp':values['curp'].upper(),
+                })
+        result = super(academy_student, self).write(values)
+        return result
+
+    @api.model
+    def create(self, values):
+        res = super(academy_student, self).create(values)
+        partner_obj = self.env['res.partner']
+        vals_to_partner = {
+                'name': res.name+" "+res.last_name,
+                'company_type': 'student',
+                'student_id': res.id,
+                }
+        partner_obj.create(vals_to_partner)
+        return res
 # class odoo_curso/odoo_academy(models.Model):
 #     _name = 'odoo_curso/odoo_academy.odoo_curso/odoo_academy'
 
