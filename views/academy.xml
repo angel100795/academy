@@ -9,18 +9,18 @@
              <field name="arch" type="xml"></field>
         </record>  -->
 
-        <record model="ir.ui.view" id="tree_student_id">
+<!--         <record model="ir.ui.view" id="tree_student_tree">
              <field name="name">academy.student.tree</field>
              <field name="model">academy.student</field>
-             <field name="type">tree</field>
+             <field name="type">tree</field> 
              <field name="arch" type="xml">
                  <tree string="Listado de estudiantes">
-                     <field name="name"> </field>
-                     <field name="last_name"> </field>
-                     <field name="create_date"> </field>
+                     <field name="name"/>
+                     <field name="last_name"/>
+                   <field name="create_date"/>
                  </tree>
              </field>
-        </record>
+        </record> -->
 
         <record model="ir.ui.view" id="academy_student_form">
              <field name="name">academy.student.form</field>
@@ -46,7 +46,6 @@
                                  <field name="name" ></field>
                                  <field name="last_name" ></field>
                                  <field name="curp" placeholder="AACA950710HVZLSN04"></field>
-                                 
                                  <field name="create_date" ></field>
 
                                  <field name="partner_id" domain="[('company_type','=','is_school')]"/>
@@ -55,7 +54,7 @@
                          <group>
                              <field name="active" />
                          </group>
-                         <group>
+<!--                          <group>
                              <notebook>
                                 <page string="Calificaciones">
                                     <field name="calificaciones_id">
@@ -72,7 +71,7 @@
                                  <field name="notes" />
                                 </page>
                          </notebook>
-                         </group>
+                         </group> -->
                      </sheet>
                  </form>
              </field>

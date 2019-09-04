@@ -6,10 +6,8 @@ class res_partner(models.Model):
 	_name ='res.partner'
 	_inherit = 'res.partner'
 	#is_school = fields.Boolean('Escuela')
-	company_type = fields.Selection(selection_add=[('is_school', 'Escuela'),
-                                                   ('student','Estudiante')])
+	company_type = fields.Selection(selection_add=[('is_school', 'Escuela'),('student','Estudiante')])
     student_id = fields.Many2one('academy.student', 'Estudiante')
-
 
 class academy_student(models.Model):
     _name = 'academy.student'
@@ -29,7 +27,9 @@ class academy_student(models.Model):
     ##Relacionales
 
     partner_id = fields.Many2one('res.partner','Escuela')
-    calificaciones_id = fields.One2many('academy.calificacion','student_id',
+    calificaciones_id = fields.One2many(
+        'academy.calificacion',
+        'student_id',
         'Calificaciones')
     
     country = fields.Many2one('res.country','Pais',
@@ -59,15 +59,15 @@ class academy_student(models.Model):
         result = super(academy_student, self).write(values)
         return result
 
-
     @api.model
     def create(self, values):
         res = super(academy_student, self).create(values)
         partner_obj = self.env['res.partner']
         vals_to_partner = {
-                'name': res.name+" "+res.last_name,
+                'name': res['name']+" "+res['last_name'],
                 'company_type': 'student',
-                'student_id': res.id,
+                'student_id': res['id'],
                 }
-        partner_obj.create(vals_to_partner)
+        partner_id = partner_obj.create(vals_to_partner)
+        print("===>partner_id", partner_id)
         return res
