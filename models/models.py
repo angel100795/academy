@@ -12,6 +12,7 @@ class res_partner(models.Model):
         'Estudiante')
 
 class academy_student(models.Model):
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _name = 'academy.student'
     _description = 'Modelo de formulario para estudiantes'
     name = fields.Char('Nombre',size=128,required=True)
@@ -36,6 +37,11 @@ class academy_student(models.Model):
         'Calificaciones')
     
     country = fields.Many2one('res.country','Pais', related='partner_id.country_id')
+
+    invoice_ids = fields.Many2many('account.invoice',
+                                   'student_invoice_rel',
+                                   'student_id','invoice_id',
+                                   'Facturas') 
 
     @api.one
     @api.constrains('curp')
