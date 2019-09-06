@@ -9,7 +9,7 @@
              <field name="arch" type="xml"></field>
         </record>  -->
 
-<!--         <record model="ir.ui.view" id="tree_student_tree">
+       <record model="ir.ui.view" id="tree_student_tree">
              <field name="name">academy.student.tree</field>
              <field name="model">academy.student</field>
              <field name="type">tree</field> 
@@ -20,7 +20,7 @@
                    <field name="create_date"/>
                  </tree>
              </field>
-        </record> -->
+        </record> 
 
         <record model="ir.ui.view" id="academy_student_form">
              <field name="name">academy.student.form</field>
@@ -54,7 +54,7 @@
                          <group>
                              <field name="active" />
                          </group>
-<!--                          <group>
+                        <group>
                              <notebook>
                                 <page string="Calificaciones">
                                     <field name="calificaciones_id">
@@ -71,7 +71,7 @@
                                  <field name="notes" />
                                 </page>
                          </notebook>
-                         </group> -->
+                         </group> 
                      </sheet>
                  </form>
              </field>
