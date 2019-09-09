@@ -10,6 +10,14 @@ class res_partner(models.Model):
     student = fields.Many2one(
         'academy.student', 
         'Estudiante')
+    property_payment_term_id = fields.Many2one('account.payment.term', company_dependent=True,
+        string='Customer Payment Terms',
+        help="This payment term will be used instead of the default one for sales orders and customer invoices", oldname="property_payment_term", track_visibility ='onchange')
+    property_supplier_payment_term_id = fields.Many2one('account.payment.term', company_dependent=True,
+        string='Vendor Payment Terms',
+        help="This payment term will be used instead of the default one for purchase orders and vendor bills", oldname="property_supplier_payment_term", track_visibility ='onchange')
+
+
 
 class academy_student(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
