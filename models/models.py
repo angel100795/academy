@@ -15,8 +15,14 @@ class academy_student(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _name = 'academy.student'
     _description = 'Modelo de formulario para estudiantes'
-    name = fields.Char('Nombre',size=128,required=True)
-    last_name = fields.Char('Apellido',size=128,required=True)
+    
+    @api.model
+    def _get_school_default(self):
+        school_id = self.env['res.partner'].search([('name','=','Escuela_comodin')])
+        return school_id
+
+    name = fields.Char('Nombre',size=128,required=True, track_visibility ='onchange')
+    last_name = fields.Char('Apellido',size=128)
     photo = fields.Binary('Fotografia')
     create_date = fields.Datetime('Fecha de creacion',readonly=True)
     notes = fields.Html('Comentarios')
@@ -25,12 +31,13 @@ class academy_student(models.Model):
                               ('progress','Progreso'),
                               ('done','Egresado'),], 'Estado')
     
-    age = fields.Integer('Edad', required=True)
-    curp = fields.Char('Curp',size=18)
+    age = fields.Integer('Edad', copy=False)
+    curp = fields.Char('Curp',size=18,copy=False)
     
     ##Relacionales
 
-    partner_id = fields.Many2one('res.partner','Escuela')
+    partner_id = fields.Many2one('res.partner','Escuela',default=_get_school_default)
+
     calificaciones_id = fields.One2many(
         'academy.calificacion',
         'student_id',
@@ -58,8 +65,17 @@ class academy_student(models.Model):
         result = super(academy_student, self).write(values)
         return result
 
+
+
     @api.model
     def create(self, values):
+        if values['name']:
+            nombre = values['name']
+            exist_ids = self.env['academy.student'].search([('name','=',self.name)])
+            if exist_ids:
+                values.update({
+                    'name': values['name']+"(copia)",
+                    })
         res = super(academy_student, self).create(values)
         partner_obj = self.env['res.partner']
         vals_to_partner = {
@@ -75,7 +91,7 @@ class academy_student(models.Model):
     @api.multi
     def unlink(self):
         partner_obj = self.env['res.partner']
-        partner_ids = partner_obj.search([('student','=',self.id)])
+        partner_ids = partner_obj.search([('student','in',self.ids)])
         print ("Partnet ##### >>>>>",partner_ids )
         if partner_ids:
             for partner in partner_ids:
