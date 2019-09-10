@@ -22,6 +22,7 @@ class academy_materia(models.Model):
     _description = 'Materias del Estudiante'
     
     name = fields.Char('Nombre')
+    grado_id = fields.Many2one('academy.grado','ID Referencia')
 
     _sql_constraints = [('name_uniq','unique(name)',
     	'El nombre de la materia debe ser unico')]
