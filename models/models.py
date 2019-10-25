@@ -26,6 +26,7 @@ class academy_materias(models.Model):
                             'Grupo')
 
     materia_ids = fields.One2many('academy.materia.list','grado_id','Materias')
+    complete_name = fields.Char('Nombre Completo',size=128,compute="")
 
 class account_move(models.Model):
     _name = 'account.move'
